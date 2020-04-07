@@ -1,3 +1,11 @@
+# Custom
+.vs/
+x64/
+**/Debug/
+**/x64/
+*.user
+*.txt
+
 # Prerequisites
 *.d
 
