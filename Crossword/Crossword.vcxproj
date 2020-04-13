@@ -156,6 +156,7 @@
     </ClCompile>
     <ClCompile Include="src\InputFileReader.cpp" />
     <ClCompile Include="src\LetterRepository.cpp" />
+    <ClCompile Include="src\WordYielder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input_after_filter.txt" />
@@ -165,6 +166,7 @@
   <ItemGroup>
     <ClInclude Include="include\InputFileReader.h" />
     <ClInclude Include="include\LetterRepository.h" />
+    <ClInclude Include="include\WordYielder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

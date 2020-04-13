@@ -38,12 +38,18 @@
     <ClCompile Include="main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\WordYielder.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\LetterRepository.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\InputFileReader.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WordYielder.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

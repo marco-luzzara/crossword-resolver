@@ -4,6 +4,7 @@
 #include <cctype>
 #include <algorithm>
 #include <functional>
+#include <cassert>
 
 #include "../include/LetterRepository.h"
 
@@ -19,9 +20,6 @@ LetterRepository::LetterRepository(const std::initializer_list<char>& letters)
 
 LetterRepository::LetterRepository(const std::vector<char>& letters)
 {
-    if (letters.size() == 0)
-        throw std::invalid_argument("letters must be at least 1");
-
     for (auto letter : letters)
     {
         this->initLetterInRepo(std::tolower(letter));

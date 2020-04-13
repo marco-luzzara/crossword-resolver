@@ -16,10 +16,8 @@ namespace LetterRepositoryTest
 	public:
 		TEST_METHOD(emptyList_repoMapEmpty)
 		{
-			Assert::ExpectException<std::invalid_argument>([]() {
-				LetterRepository lr;
-				Assert::AreEqual(0, (int)lr.getRepoMap().size());
-			});
+			LetterRepository lr;
+			Assert::AreEqual(0, (int)lr.getRepoMap().size());
 		}
 
 		TEST_METHOD(listWithNoDuplicates_repoMapHasListSize)

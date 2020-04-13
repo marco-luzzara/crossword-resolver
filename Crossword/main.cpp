@@ -8,13 +8,15 @@
 
 #include "include/LetterRepository.h"
 #include "include/InputFileReader.h"
+#include "include/WordYielder.h"
+#include <iterator>
 
 std::vector<std::pair<unsigned int, std::set<std::string>>> readDictionaryFile(
     std::istream& ifs_dictionary,
     const std::vector<unsigned int> lengths_vect)
 {
     std::vector<std::pair<unsigned int, std::set<std::string>>> dictionarySets;
-    std::unordered_set<unsigned int> lengths_set(lengths_vect.begin(), lengths_vect.end());
+    std::set<unsigned int> lengths_set(lengths_vect.begin(), lengths_vect.end());
 
     for (auto len : lengths_set)
         dictionarySets.push_back({len, std::set<std::string>()});
@@ -40,6 +42,53 @@ std::vector<std::pair<unsigned int, std::set<std::string>>> readDictionaryFile(
     return dictionarySets;
 }
 
+void findPhrases(const std::vector<std::pair<unsigned int, std::set<std::string>>>& dictionarySets,
+    const std::vector<unsigned int>& wordsLength,
+    LetterRepository& lr,
+    int wordCounter, 
+    std::unordered_set<std::string>& foundPhrases,
+    std::string currentPhrase) 
+{
+    if (wordCounter == wordsLength.size())
+    {
+        currentPhrase.pop_back();
+        foundPhrases.insert(std::move(currentPhrase));
+        return;
+    }
+
+    unsigned int curLength = wordsLength[wordCounter];
+    auto wordsSetPairIt = std::find_if(dictionarySets.begin(), dictionarySets.end(),
+        [curLength](const auto& dictPair) {
+            return dictPair.first == curLength;
+        });
+
+    if (wordsSetPairIt == dictionarySets.end())
+        return;
+
+    const std::set<std::string>& words = wordsSetPairIt->second;
+    WordYielder wy(lr, words);
+
+    for (const auto& word : wy)
+    {
+        findPhrases(dictionarySets, wordsLength, lr, wordCounter + 1, foundPhrases, currentPhrase + word + " ");
+    }
+
+
+}
+
+std::unordered_set<std::string> startFindPhrases(const std::vector<std::pair<unsigned int, std::set<std::string>>>& dictionarySets,
+    const std::vector<unsigned int>& wordsLength,
+    LetterRepository& lr)
+{
+    std::unordered_set<std::string> foundPhrases;
+
+    if (wordsLength.size() != 0)
+        findPhrases(dictionarySets, wordsLength, lr, 0, foundPhrases, "");
+
+
+    return foundPhrases;
+}
+
 int main(int argc, char* argv[])
 {
     if (argc < 2)
@@ -59,5 +108,10 @@ int main(int argc, char* argv[])
 
     LetterRepository repo(letters_vect);
 
+    std::unordered_set<std::string> foundPhrases = startFindPhrases(dictionarySets, lengths_vect, repo);
 
+    for (const auto& s : foundPhrases)
+        std::cout << s << std::endl;
+
+    return 0;
 }
