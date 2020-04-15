@@ -14,7 +14,9 @@ int main(int argc, char* argv[])
     if (argc < 2)
         throw std::invalid_argument("you must specify the input file name as argument to main function");
 
-    InputFileReader fileReader(argv[1]);
+    std::ifstream ifs_in = std::ifstream(argv[1], std::ios::in);
+    InputFileReader fileReader(ifs_in);
+    ifs_in.close();
 
     auto letters_vect = fileReader.getLetters_vect();
     auto lengths_vect = fileReader.getLengths_vect();

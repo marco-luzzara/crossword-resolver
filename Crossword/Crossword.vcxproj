@@ -153,6 +153,7 @@
     </ClCompile>
     <ClCompile Include="main_filter_words.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\InputFileReader.cpp" />
     <ClCompile Include="src\LetterRepository.cpp" />
