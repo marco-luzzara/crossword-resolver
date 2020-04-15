@@ -40,16 +40,7 @@ int main(int argc, char* argv[])
             continue;
 
         repo.restoreInitialRepo();
-        for (auto c : word)
-        {
-            if (!repo.removeLetter(c))
-            {
-                is_word_accepted = false;
-                break;
-            }
-        }
-
-        if (is_word_accepted)
+        if (repo.removeString(word))
             ofs << word << std::endl;
     }
 
