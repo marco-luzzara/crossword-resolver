@@ -69,9 +69,9 @@ namespace MainTest
 			std::vector<unsigned int> wordsLength{ 4 };
 			LetterRepository lr{ 't', 'e', 's', 't' };
 
-			std::unordered_set<std::string> foundPhrases = startFindPhrases(dictionarySets, wordsLength, lr);
+			auto foundPhrases = startFindPhrases(dictionarySets, wordsLength, lr);
 
-			Assert::IsTrue(foundPhrases == std::unordered_set<std::string>());
+			Assert::IsTrue(foundPhrases == std::vector<std::string>());
 		}
 
 		TEST_METHOD(notEnoughLetterInRepo_returnEmpty)
@@ -80,9 +80,9 @@ namespace MainTest
 			std::vector<unsigned int> wordsLength{ 4 };
 			LetterRepository lr{ 't', 'e', 's' };
 
-			std::unordered_set<std::string> foundPhrases = startFindPhrases(dictionarySets, wordsLength, lr);
+			auto foundPhrases = startFindPhrases(dictionarySets, wordsLength, lr);
 
-			Assert::IsTrue(foundPhrases == std::unordered_set<std::string>());
+			Assert::IsTrue(foundPhrases == std::vector<std::string>());
 		}
 
 		TEST_METHOD(wordsLengthEmpty_returnEmpty)
@@ -91,9 +91,9 @@ namespace MainTest
 			std::vector<unsigned int> wordsLength;
 			LetterRepository lr{ 't', 'e', 's', 't' };
 
-			std::unordered_set<std::string> foundPhrases = startFindPhrases(dictionarySets, wordsLength, lr);
+			auto foundPhrases = startFindPhrases(dictionarySets, wordsLength, lr);
 
-			Assert::IsTrue(foundPhrases == std::unordered_set<std::string>());
+			Assert::IsTrue(foundPhrases == std::vector<std::string>());
 		}
 
 		TEST_METHOD(letterRepositoryEmpty_returnEmpty)
@@ -102,9 +102,9 @@ namespace MainTest
 			std::vector<unsigned int> wordsLength{ 4 };
 			LetterRepository lr;
 
-			std::unordered_set<std::string> foundPhrases = startFindPhrases(dictionarySets, wordsLength, lr);
+			auto foundPhrases = startFindPhrases(dictionarySets, wordsLength, lr);
 
-			Assert::IsTrue(foundPhrases == std::unordered_set<std::string>());
+			Assert::IsTrue(foundPhrases == std::vector<std::string>());
 		}
 
 		TEST_METHOD(oneWord_returnThatWord)
@@ -113,9 +113,9 @@ namespace MainTest
 			std::vector<unsigned int> wordsLength{ 4 };
 			LetterRepository lr{ 't', 'e', 's', 't' };
 
-			std::unordered_set<std::string> foundPhrases = startFindPhrases(dictionarySets, wordsLength, lr);
+			auto foundPhrases = startFindPhrases(dictionarySets, wordsLength, lr);
 
-			Assert::IsTrue(foundPhrases == std::unordered_set<std::string>{ "test" });
+			Assert::IsTrue(foundPhrases == std::vector<std::string>{ "test" });
 		}
 
 		TEST_METHOD(permutationsOfSingleWord_returnPermutations)
@@ -124,20 +124,31 @@ namespace MainTest
 			std::vector<unsigned int> wordsLength{ 4 };
 			LetterRepository lr{ 't', 'e', 's', 't' };
 
-			std::unordered_set<std::string> foundPhrases = startFindPhrases(dictionarySets, wordsLength, lr);
+			auto foundPhrases = startFindPhrases(dictionarySets, wordsLength, lr);
 
-			Assert::IsTrue(foundPhrases == std::unordered_set<std::string>{ "test", "estt" });
+			Assert::IsTrue(foundPhrases == std::vector<std::string>{ "estt", "test" });
 		}
 
-		TEST_METHOD(permutationsOfMultipleWord_returnPermutations)
+		TEST_METHOD(permutationsOfMultipleWordWithDP_returnPermutations)
 		{
 			std::vector<std::pair<unsigned int, std::set<std::string>>> dictionarySets{ { 4, { "test", "estt" } }, { 2, { "ok", "ko" } } };
 			std::vector<unsigned int> wordsLength{ 4, 2 };
 			LetterRepository lr{ 't', 'e', 's', 't', 'o', 'k' };
 
-			std::unordered_set<std::string> foundPhrases = startFindPhrases(dictionarySets, wordsLength, lr);
+			auto foundPhrases = startFindPhrases(dictionarySets, wordsLength, lr);
 
-			Assert::IsTrue(foundPhrases == std::unordered_set<std::string>{ "test ok", "test ko", "estt ok", "estt ko" });
+			Assert::IsTrue(foundPhrases == std::vector<std::string>{ "estt ko", "estt ok", "test ko", "test ok"  });
+		}
+
+		TEST_METHOD(permutationsOfMultipleWordWithoutDP_returnPermutations)
+		{
+			std::vector<std::pair<unsigned int, std::set<std::string>>> dictionarySets{ { 4, { "teso", "estk" } }, { 2, { "ot", "kt", "tk", "to" } } };
+			std::vector<unsigned int> wordsLength{ 4, 2 };
+			LetterRepository lr{ 't', 'e', 's', 't', 'o', 'k' };
+
+			auto foundPhrases = startFindPhrases(dictionarySets, wordsLength, lr);
+
+			Assert::IsTrue(foundPhrases == std::vector<std::string>{ "estk ot", "estk to", "teso kt", "teso tk"  });
 		}
 	};
 }
